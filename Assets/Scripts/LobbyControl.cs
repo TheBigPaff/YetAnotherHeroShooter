@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using MLAPI;
 using MLAPI.Messaging;
@@ -86,7 +86,7 @@ public class LobbyControl : NetworkBehaviour
     private void UpdateAndCheckPlayersInLobby()
     {
         //This is game preference, but I am assuming at least 2 players?
-        m_AllPlayersInLobby = m_ClientsInLobby.Count > 1;
+        m_AllPlayersInLobby = m_ClientsInLobby.Count > 0;
 
         foreach (var clientLobbyStatus in m_ClientsInLobby)
         {

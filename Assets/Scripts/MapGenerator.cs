@@ -1,8 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MLAPI;
+using MLAPI.NetworkVariable;
+using MLAPI.Serialization;
+using System;
 
-public class MapGenerator : MonoBehaviour
+public class MapGenerator : NetworkBehaviour
 {
     public Map[] maps;
     public int mapIndex;
@@ -27,6 +31,29 @@ public class MapGenerator : MonoBehaviour
 
     Map currentMap;
 
+
+    NetworkVariable<Map> map = new NetworkVariable<Map>(new NetworkVariableSettings { WritePermission = NetworkVariablePermission.ServerOnly, ReadPermission = NetworkVariablePermission.Everyone });
+
+    private void Awake()
+    {
+        map.OnValueChanged += OnMapChanged;
+
+        if(IsServer)
+        {
+            map.Value = GetRandomMap();
+        }
+    }
+
+    private void OnMapChanged(Map previousValue, Map newValue)
+    {
+        GenerateMap();
+    }
+
+    private void OnDestroy()
+    {
+        map.OnValueChanged -= OnMapChanged;
+    }
+
     private void Start()
     {
         //FindObjectOfType<Spawner>().OnNewWave += OnNewWave;
@@ -41,10 +68,35 @@ public class MapGenerator : MonoBehaviour
         }
 
     }
+    
+    public Map GetRandomMap()
+    {
+        Map map = new Map();
+        System.Random random = new System.Random();
+
+        int x = random.Next(15, 31);
+        int y = random.Next(15, 31);
+        map.mapSize = new Coord(x, y);
+        map.obstaclePercent = (float)GetRandomDouble(0.05, 0.2);
+        map.backgroundColor = Color.blue;
+        map.foregroundColor = Color.red;
+        map.minObstacleHeight = 1.5f;
+        map.maxObstacleHeight = 3f;
+
+        return map;
+    }
+    public double GetRandomDouble(double minimum, double maximum)
+    {
+        System.Random random = new System.Random();
+        return random.NextDouble() * (maximum - minimum) + minimum;
+    }
 
     public void GenerateMap()
     {
-        currentMap = maps[mapIndex];
+        //currentMap = maps[mapIndex];
+        //currentMap = GetRandomMap();
+        currentMap = map.Value;
+
         System.Random prng = new System.Random(currentMap.seed);
         tileMap = new Transform[currentMap.mapSize.x, currentMap.mapSize.y];
 
@@ -207,7 +259,7 @@ public class MapGenerator : MonoBehaviour
     }
 
     [System.Serializable]
-    public struct Coord
+    public struct Coord: INetworkSerializable
     {
         public int x;
         public int y;
@@ -216,6 +268,12 @@ public class MapGenerator : MonoBehaviour
         {
             x = _x;
             y = _y;
+        }
+
+        public void NetworkSerialize(NetworkSerializer serializer)
+        {
+            serializer.Serialize(ref x);
+            serializer.Serialize(ref y);
         }
 
         public static bool operator ==(Coord coord1, Coord coord2)
@@ -229,7 +287,7 @@ public class MapGenerator : MonoBehaviour
 
     }
     [System.Serializable]
-    public class Map
+    public class Map: INetworkSerializable
     {
         public Coord mapSize;
         [Range(0, 1)]
@@ -246,6 +304,18 @@ public class MapGenerator : MonoBehaviour
             {
                 return new Coord(mapSize.x / 2, mapSize.y / 2);
             }
+        }
+
+        public void NetworkSerialize(NetworkSerializer serializer)
+        {
+            mapSize.NetworkSerialize(serializer);
+            mapCentre.NetworkSerialize(serializer);
+            serializer.Serialize(ref obstaclePercent);
+            serializer.Serialize(ref seed);
+            serializer.Serialize(ref minObstacleHeight);
+            serializer.Serialize(ref maxObstacleHeight);
+            serializer.Serialize(ref foregroundColor);
+            serializer.Serialize(ref backgroundColor);
         }
     }
 }

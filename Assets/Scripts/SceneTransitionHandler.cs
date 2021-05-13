@@ -42,7 +42,7 @@ public class SceneTransitionHandler : NetworkBehaviour
     /// </summary>
     private void Awake()
     {
-        if (sceneTransitionHandler != this && sceneTransitionHandler != null)
+        if(sceneTransitionHandler != this && sceneTransitionHandler != null)
         {
             GameObject.Destroy(sceneTransitionHandler.gameObject);
         }
@@ -58,7 +58,7 @@ public class SceneTransitionHandler : NetworkBehaviour
     public void SetSceneState(SceneStates sceneState)
     {
         m_SceneState = sceneState;
-        if (OnSceneStateChanged != null)
+        if(OnSceneStateChanged != null)
         {
             OnSceneStateChanged.Invoke(m_SceneState);
         }
@@ -80,7 +80,7 @@ public class SceneTransitionHandler : NetworkBehaviour
     /// </summary>
     private void Start()
     {
-        if (m_SceneState == SceneStates.Init)
+        if(m_SceneState == SceneStates.Init)
         {
             SceneManager.LoadScene(DefaultMainMenu);
         }
@@ -92,7 +92,7 @@ public class SceneTransitionHandler : NetworkBehaviour
     /// <param name="scenename"></param>
     public void SwitchScene(string scenename)
     {
-        if (NetworkManager.Singleton.IsListening)
+        if(NetworkManager.Singleton.IsListening)
         {
             m_SceneProgress = NetworkSceneManager.SwitchScene(scenename);
 
@@ -106,7 +106,7 @@ public class SceneTransitionHandler : NetworkBehaviour
 
     public bool AllClientsAreLoaded()
     {
-        if (m_SceneProgress != null)
+        if(m_SceneProgress != null)
         {
             return m_SceneProgress.IsAllClientsDoneLoading;
         }
@@ -119,7 +119,7 @@ public class SceneTransitionHandler : NetworkBehaviour
     /// <param name="clientId"></param>
     private void SceneProgress_OnClientLoadedScene(ulong clientId)
     {
-        if (OnClientLoadedScene != null)
+        if(OnClientLoadedScene != null)
         {
             OnClientLoadedScene.Invoke(clientId);
         }
@@ -131,11 +131,11 @@ public class SceneTransitionHandler : NetworkBehaviour
     /// </summary>
     public void ExitAndLoadStartMenu()
     {
-        if (m_SceneProgress != null)
+        if(m_SceneProgress != null)
         {
             m_SceneProgress = null;
         }
-        if (OnClientLoadedScene != null)
+        if(OnClientLoadedScene != null)
         {
             OnClientLoadedScene = null;
         }
