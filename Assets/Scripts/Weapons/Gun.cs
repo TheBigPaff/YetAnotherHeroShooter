@@ -8,7 +8,6 @@ public class Gun : MonoBehaviour
     public FireMode fireMode;
 
 
-
     public Transform[] projectileSpawn;
     public Projectile projectile;
     public float msBetweenShots = 100f;
@@ -67,6 +66,7 @@ public class Gun : MonoBehaviour
     }
     void Shoot()
     {
+        ammoRemainingInMag = ammoPerMag;
         if (!isReloading && Time.time > timeForNextShot && ammoRemainingInMag > 0)
         {
             if (fireMode == FireMode.Burst)

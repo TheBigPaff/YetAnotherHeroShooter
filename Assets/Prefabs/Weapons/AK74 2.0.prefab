@@ -176,6 +176,7 @@ GameObject:
   - component: {fileID: 33705837635148522}
   - component: {fileID: 23860282398207496}
   - component: {fileID: 3761042279076072895}
+  - component: {fileID: 6494627040579436217}
   m_Layer: 0
   m_Name: AK74 2.0
   m_TagString: Untagged
@@ -282,6 +283,23 @@ MonoBehaviour:
   recoilAngleMinMax: {x: 10, y: 20}
   recoilSettleTime: 0.1
   recoilAngleSettleTime: 0.1
+--- !u!114 &6494627040579436217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487774384131766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkInstanceId: 0
+  PrefabHash: 9270713790375724240
+  PrefabHashGenerator: AK74 2.0
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
 --- !u!1 &1927369336514790
 GameObject:
   m_ObjectHideFlags: 0

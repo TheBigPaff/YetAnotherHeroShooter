@@ -10,6 +10,14 @@ public enum DefaultArsenal
     Uzi
 }
 
+public enum DefaultWeapons
+{
+    AK74_2,
+    M4_8,
+    M1911,
+    Uzi
+}
+
 [System.Serializable]
 public class Arsenal
 {

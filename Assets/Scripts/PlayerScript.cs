@@ -33,6 +33,8 @@ public class PlayerScript : NetworkBehaviour
     GunRaycast rightGun;
     GunRaycast leftGun;
 
+    Gun equippedGun;
+
     private ClientRpcParams m_OwnerRPCParams;
 
 
@@ -139,13 +141,31 @@ public class PlayerScript : NetworkBehaviour
             GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraScript>().player = gameObject;
         }
 
-        // equip AK74 - default
+        //// equip AK74 - default
+        //Arsenal gunToEquip = weaponsManager.GetWeapon(DefaultArsenal.AK74);
+        //SetArsenal(gunToEquip);
+
         weaponsManager = GameObject.FindGameObjectWithTag("WeaponsManager").GetComponent<WeaponsManager>();
-        Arsenal gunToEquip = weaponsManager.GetWeapon(DefaultArsenal.AK74);
-        SetArsenal(gunToEquip);
+        equippedGun = weaponsManager.guns[0]; // default
+        EquipGun();
 
         ////get muzzle from gun
         //muzzle = rightGunBone.GetChild(0).Find("Muzzle");
+    }
+
+    private void EquipGun()
+    {
+        // always right handed
+
+        if (rightGunBone.childCount > 0)
+            Destroy(rightGunBone.GetChild(0).gameObject);
+        if (equippedGun != null)
+        {
+            GameObject newGun = Instantiate(equippedGun.gameObject);
+            newGun.transform.parent = rightGunBone;
+            newGun.transform.localPosition = Vector3.zero;
+            newGun.transform.localRotation = Quaternion.Euler(90, 0, 0);
+        }
     }
 
     private void SceneTransitionHandler_sceneStateChanged(SceneTransitionHandler.SceneStates newState)
@@ -202,7 +222,26 @@ public class PlayerScript : NetworkBehaviour
         if (!IsLocalPlayer || !IsOwner || !m_HasGameStarted) return;
         if (!IsAlive) return;
 
-        Move();
+        Vector3 movementInput = new Vector3(movementJoystick.Horizontal, 0, movementJoystick.Vertical);
+        controller.Move(movementInput * movementSpeed * Time.deltaTime);
+        UpdateAnimator();
+
+
+        if (Mathf.Abs(aimJoystick.Horizontal) > 0.01 || Mathf.Abs(aimJoystick.Vertical) > 0.01)
+        {
+            Vector3 aimInput = new Vector3(aimJoystick.Horizontal, 0, aimJoystick.Vertical);
+            transform.rotation = Quaternion.LookRotation(aimInput);
+        }
+
+        if (Mathf.Abs(aimJoystick.Horizontal) > 0.7 || Mathf.Abs(aimJoystick.Vertical) > 0.7)
+        {
+            //Shoot();
+            equippedGun.OnTriggerHold();
+        }
+        else
+        {
+            equippedGun.OnTriggerRelease();
+        }
 
         // update UI
         if (IsLocalPlayer)
@@ -211,31 +250,6 @@ public class PlayerScript : NetworkBehaviour
             healthPercent = (float)playerHealth.health.Value / playerHealth.startingHealth;
             healthBar.localScale = new Vector3(healthPercent, 1, 1);
         }
-    }
-
-    void Move()
-    {
-        //Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-
-        Vector3 movementInput = new Vector3(movementJoystick.Horizontal, 0, movementJoystick.Vertical);
-
-        controller.Move(movementInput * movementSpeed * Time.deltaTime);
-
-
-        //if (controller.velocity.sqrMagnitude > 0.2f)
-        //{
-        //    transform.rotation = Quaternion.LookRotation(movementInput);
-        //}
-
-        Vector3 aimInput = new Vector3(aimJoystick.Horizontal, 0, aimJoystick.Vertical);
-        transform.rotation = Quaternion.LookRotation(aimInput);
-        
-        if (Mathf.Abs(aimJoystick.Horizontal) > 0.7 || Mathf.Abs(aimJoystick.Vertical) > 0.7)
-        {
-            Shoot();
-        }
-
-        UpdateAnimator();
     }
 
     void Shoot()

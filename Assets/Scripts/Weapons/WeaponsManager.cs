@@ -5,6 +5,7 @@ using UnityEngine;
 public class WeaponsManager : MonoBehaviour
 {
     public Arsenal[] arsenal;
+    public Gun[] guns;
 
     public Arsenal GetWeapon(DefaultArsenal name)
     {
