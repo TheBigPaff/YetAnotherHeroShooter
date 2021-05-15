@@ -3,6 +3,7 @@ using MLAPI.Transports.UNET;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
@@ -32,6 +33,12 @@ public class MainMenu : MonoBehaviour
             LobbyControl.isHosting = false; //This is a work around to handle proper instantiation of a scene for the first time.  (See LobbyControl.cs)
             SceneTransitionHandler.sceneTransitionHandler.SwitchScene(m_LobbySceneName);
         }
+    }
+
+    public void JoinSoloGame()
+    {
+        // dont bother with scene transition handler because it's all client-sided, no need to sync I guess
+        SceneManager.LoadScene("SoloHordeGame");
     }
 
     public void QuitGame()

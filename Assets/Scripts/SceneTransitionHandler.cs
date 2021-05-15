@@ -140,6 +140,6 @@ public class SceneTransitionHandler : NetworkBehaviour
             OnClientLoadedScene = null;
         }
         SetSceneState(SceneTransitionHandler.SceneStates.Start);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(DefaultMainMenu);
     }
 }
