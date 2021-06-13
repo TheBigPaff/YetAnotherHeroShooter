@@ -202,7 +202,21 @@ public class PlayerScript : NetworkBehaviour
         if (!IsLocalPlayer || !IsOwner || !m_HasGameStarted) return;
         if (!IsAlive) return;
 
-        Move();
+        Vector3 movementInput = new Vector3(movementJoystick.Horizontal, 0, movementJoystick.Vertical);
+        controller.Move(movementInput * movementSpeed * Time.deltaTime);
+        UpdateAnimator();
+
+
+        if (Mathf.Abs(aimJoystick.Horizontal) > 0.01 || Mathf.Abs(aimJoystick.Vertical) > 0.01)
+        {
+            Vector3 aimInput = new Vector3(aimJoystick.Horizontal, 0, aimJoystick.Vertical);
+            transform.rotation = Quaternion.LookRotation(aimInput);
+        }
+
+        if (Mathf.Abs(aimJoystick.Horizontal) > 0.7 || Mathf.Abs(aimJoystick.Vertical) > 0.7)
+        {
+            Shoot();
+        }
 
         // update UI
         if (IsLocalPlayer)
@@ -213,31 +227,7 @@ public class PlayerScript : NetworkBehaviour
         }
     }
 
-    void Move()
-    {
-        //Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-
-        Vector3 movementInput = new Vector3(movementJoystick.Horizontal, 0, movementJoystick.Vertical);
-
-        controller.Move(movementInput * movementSpeed * Time.deltaTime);
-
-
-        //if (controller.velocity.sqrMagnitude > 0.2f)
-        //{
-        //    transform.rotation = Quaternion.LookRotation(movementInput);
-        //}
-
-        Vector3 aimInput = new Vector3(aimJoystick.Horizontal, 0, aimJoystick.Vertical);
-        transform.rotation = Quaternion.LookRotation(aimInput);
-        
-        if (Mathf.Abs(aimJoystick.Horizontal) > 0.7 || Mathf.Abs(aimJoystick.Vertical) > 0.7)
-        {
-            Shoot();
-        }
-
-        UpdateAnimator();
-    }
-
+   
     void Shoot()
     {
         if (!IsAlive) return;
