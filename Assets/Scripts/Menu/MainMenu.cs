@@ -10,14 +10,14 @@ using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
-    //[SerializeField]
-    //private GameObject startMenu;
-    //[SerializeField]
-    //private GameObject registerMenu;
-    //[SerializeField]
-    //private GameObject logInMenu;
-    //[SerializeField]
-    //private GameObject mainMenu;
+    [SerializeField]
+    private GameObject startMenu;
+
+    [SerializeField]
+    private GameObject mainMenu;
+
+    public TMP_Text startMenuPlayerDisplay;
+    public TMP_Text mainMenuPlayerDisplay;
 
     [SerializeField]
     private TMP_InputField joinRoomName;
@@ -26,6 +26,14 @@ public class MainMenu : MonoBehaviour
 
     [SerializeField]
     private string m_LobbySceneName = "Lobby";
+
+    private void Start()
+    {
+        if (DBManager.LoggedIn)
+        {
+            startMenuPlayerDisplay.text = "User: " + DBManager.username;
+        }
+    }
 
     public void StartLocalGame()
     {
@@ -69,5 +77,15 @@ public class MainMenu : MonoBehaviour
     {
         Debug.Log("QUIT!");
         Application.Quit();
+    }
+
+    public void Logout()
+    {
+        DBManager.LogOut();
+        startMenuPlayerDisplay.text = "No user logged in";
+        mainMenuPlayerDisplay.text = "No user logged in";
+
+        startMenu.SetActive(true);
+        mainMenu.SetActive(false);
     }
 }

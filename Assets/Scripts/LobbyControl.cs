@@ -72,6 +72,7 @@ public class LobbyControl : NetworkBehaviour
         foreach (var clientLobbyStatus in m_ClientsInLobby)
         {
             m_UserLobbyStatusText += "Player_" + clientLobbyStatus.Key + "          ";
+            //m_UserLobbyStatusText += DBManager.LoggedIn ? DBManager.username + "          " : "Guest_" + clientLobbyStatus.Key + "          ";
             if (clientLobbyStatus.Value)
                 m_UserLobbyStatusText += "(Ready)\n";
             else
