@@ -11,7 +11,7 @@ public class Gun : MonoBehaviour
 
     public Transform[] projectileSpawn;
     public Projectile projectile;
-    public float msBetweenShots = 100f;
+    public float msBetweenShots = 350f;
     public float muzzleVelocity = 35f;
     public int shotsInABurst;
     public int ammoPerMag;

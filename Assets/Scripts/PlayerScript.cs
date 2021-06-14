@@ -25,7 +25,9 @@ public class PlayerScript : NetworkBehaviour
 
     [Header("Settings")]
     [SerializeField] private float movementSpeed = 5f;
+    [SerializeField] private float msBetweenShots = 350f;
 
+    private float timeForNextShot = 0f;
     private SceneTransitionHandler.SceneStates m_CurrentSceneState;
     private bool m_HasGameStarted;
     public bool IsAlive = true;
@@ -232,10 +234,11 @@ public class PlayerScript : NetworkBehaviour
     {
         if (!IsAlive) return;
 
-        if (rightGunBone != null)
+        if (rightGunBone != null && Time.time > timeForNextShot)
         {
             muzzle = rightGunBone.GetChild(0).Find("Muzzle");
             ShootServerRpc(muzzle.position, muzzle.forward);
+            timeForNextShot = Time.time + (msBetweenShots / 1000);
         }
     }
 
