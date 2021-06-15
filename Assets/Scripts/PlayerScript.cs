@@ -6,9 +6,12 @@ using System;
 using MLAPI.Messaging;
 using MLAPI.Prototyping;
 using UnityEngine.UI;
+using MLAPI.NetworkVariable;
 
 public class PlayerScript : NetworkBehaviour
 {
+    public NetworkVariable<string> username = new NetworkVariable<string>(new NetworkVariableSettings { WritePermission = NetworkVariablePermission.OwnerOnly, ReadPermission = NetworkVariablePermission.Everyone });
+
     [Header("References")]
     [SerializeField] private CharacterController controller = null;
     public Transform rightGunBone;
@@ -164,12 +167,21 @@ public class PlayerScript : NetworkBehaviour
     }
     public override void NetworkStart()
     {
+
+        if (IsOwner)
+        {
+            username.Value = DBManager.LoggedIn ? DBManager.username : "Guest_" + transform.GetComponent<NetworkObject>().OwnerClientId;
+        }
+
         base.NetworkStart();
 
         // Bind to OnValueChanged to display in log the remaining lives of this player
         // And to update InvadersGame singleton client-side
         //m_Lives.OnValueChanged += OnLivesChanged;
         //m_Score.OnValueChanged += OnScoreChanged;
+
+
+
 
         if (IsServer) m_OwnerRPCParams = new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new[] { OwnerClientId } } };
 
