@@ -13,7 +13,7 @@ public class Registration : MonoBehaviour
     private GameObject mainMenu;
 
     [SerializeField]
-    private GameObject errorMessageGameObject;
+    private GameObject feedbackMessageGO;
 
     [SerializeField]
     private TMP_InputField nameField;
@@ -55,8 +55,8 @@ public class Registration : MonoBehaviour
         {
             Debug.Log("User creation failed. Error #" + www.downloadHandler.text);
 
-            errorMessageGameObject.SetActive(true);
-            errorMessageGameObject.GetComponentInChildren<TMP_Text>().text = "User creation failed. Error #" + www.downloadHandler.text;
+            feedbackMessageGO.SetActive(true);
+            feedbackMessageGO.GetComponentInChildren<TMP_Text>().text = "User creation failed. Error #" + www.downloadHandler.text;
         }
     }
 
@@ -66,6 +66,6 @@ public class Registration : MonoBehaviour
     }
     public void ResetErrorMessage()
     {
-        errorMessageGameObject.SetActive(false);
+        feedbackMessageGO.SetActive(false);
     }
 }

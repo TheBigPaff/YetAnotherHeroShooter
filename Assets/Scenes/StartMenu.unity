@@ -8759,7 +8759,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   registerMenu: {fileID: 1290515950}
   mainMenu: {fileID: 14804298}
-  errorMessageGameObject: {fileID: 1342644053}
+  feedbackMessageGO: {fileID: 1342644053}
   nameField: {fileID: 84052622}
   emailField: {fileID: 926839338}
   passwordField: {fileID: 1952230683}
@@ -9085,7 +9085,7 @@ GameObject:
   - component: {fileID: 1342644056}
   - component: {fileID: 1342644055}
   m_Layer: 5
-  m_Name: ErrorMessage
+  m_Name: FeedbackMessage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
