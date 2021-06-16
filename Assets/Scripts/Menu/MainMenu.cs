@@ -32,6 +32,9 @@ public class MainMenu : MonoBehaviour
         if (DBManager.LoggedIn)
         {
             startMenuPlayerDisplay.text = "User: " + DBManager.username;
+            mainMenuPlayerDisplay.text = "User: " + DBManager.username;
+            startMenu.SetActive(false);
+            mainMenu.SetActive(true);
         }
     }
 
