@@ -37,6 +37,7 @@ public class Registration : MonoBehaviour
         form.AddField("password", passwordField.text);
 
         UnityWebRequest www = UnityWebRequest.Post("http://localhost/YetAnotherMobileShooter/register.php", form);
+
         yield return www.SendWebRequest();
 
         if(www.downloadHandler.text == "0")
@@ -48,6 +49,9 @@ public class Registration : MonoBehaviour
             transform.parent.GetComponent<MainMenu>().mainMenuPlayerDisplay.text = "User: " + DBManager.username;
 
             ResetErrorMessage();
+            nameField.text = "";
+            emailField.text = "";
+            passwordField.text = "";
             registerMenu.SetActive(false);
             mainMenu.SetActive(true);
         }
@@ -66,6 +70,6 @@ public class Registration : MonoBehaviour
     }
     public void ResetErrorMessage()
     {
-        feedbackMessageGO.SetActive(false);
+        feedbackMessageGO.GetComponentInChildren<TMP_Text>().text = "You will receive a verification email after signing up.";
     }
 }

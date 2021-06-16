@@ -45,6 +45,8 @@ public class Login : MonoBehaviour
             ResetErrorMessage();
             loginMenu.SetActive(false);
             mainMenu.SetActive(true);
+            nameField.text = "";
+            passwordField.text = "";
         }
         else
         {

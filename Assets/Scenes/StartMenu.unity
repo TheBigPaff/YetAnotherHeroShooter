@@ -9090,7 +9090,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1342644054
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11275,7 +11275,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ERROR
+  m_text: You will receive a verification email after signing up.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fbf052a111ce9c54fb35744e5e78146a, type: 2}
   m_sharedMaterial: {fileID: 8300662746029052724, guid: fbf052a111ce9c54fb35744e5e78146a, type: 2}
