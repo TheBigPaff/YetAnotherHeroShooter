@@ -18,6 +18,8 @@ public class Registration : MonoBehaviour
     [SerializeField]
     private TMP_InputField nameField;
     [SerializeField]
+    private TMP_InputField emailField;
+    [SerializeField]
     private TMP_InputField passwordField;
     [SerializeField]
     public Button submitButton;
@@ -31,6 +33,7 @@ public class Registration : MonoBehaviour
     {
         WWWForm form = new WWWForm();
         form.AddField("username", nameField.text);
+        form.AddField("email", emailField.text);
         form.AddField("password", passwordField.text);
 
         UnityWebRequest www = UnityWebRequest.Post("http://localhost/YetAnotherMobileShooter/register.php", form);
@@ -59,7 +62,7 @@ public class Registration : MonoBehaviour
 
     public void VerifyInputs()
     {
-        submitButton.interactable = (nameField.text.Length >= 1 && passwordField.text.Length >= 1);
+        submitButton.interactable = (nameField.text.Length >= 1 && passwordField.text.Length >= 1 && emailField.text.Length > 6);
     }
     public void ResetErrorMessage()
     {
