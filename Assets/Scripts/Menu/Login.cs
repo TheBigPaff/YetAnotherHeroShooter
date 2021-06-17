@@ -13,7 +13,7 @@ public class Login : MonoBehaviour
     private GameObject mainMenu;
 
     [SerializeField]
-    private GameObject errorMessageGameObject;
+    private GameObject feedbackMessageGO;
 
     [SerializeField]
     private TMP_InputField nameField;
@@ -35,8 +35,13 @@ public class Login : MonoBehaviour
 
         UnityWebRequest www = UnityWebRequest.Post("http://localhost/YetAnotherMobileShooter/login.php", form);
         yield return www.SendWebRequest();
-        
-        if(www.downloadHandler.text[0] == '0')
+
+        if (www.result == UnityWebRequest.Result.ConnectionError)
+        {
+            feedbackMessageGO.SetActive(true);
+            feedbackMessageGO.GetComponentInChildren<TMP_Text>().text = "The server is not reachable";
+        }
+        else if (www.downloadHandler.text[0] == '0')
         {
             DBManager.username = nameField.text;
             transform.parent.GetComponent<MainMenu>().startMenuPlayerDisplay.text = "User: " + DBManager.username;
@@ -52,8 +57,8 @@ public class Login : MonoBehaviour
         {
             Debug.Log("User login failed. Error #" + www.downloadHandler.text);
 
-            errorMessageGameObject.SetActive(true);
-            errorMessageGameObject.GetComponentInChildren<TMP_Text>().text = "User login failed. Error #" + www.downloadHandler.text;
+            feedbackMessageGO.SetActive(true);
+            feedbackMessageGO.GetComponentInChildren<TMP_Text>().text = "User login failed. Error #" + www.downloadHandler.text;
         }
     }
 
@@ -64,7 +69,7 @@ public class Login : MonoBehaviour
 
     public void ResetErrorMessage()
     {
-        errorMessageGameObject.SetActive(false);
+        feedbackMessageGO.SetActive(false);
     }
 
 }

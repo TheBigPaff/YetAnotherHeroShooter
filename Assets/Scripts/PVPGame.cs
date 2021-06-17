@@ -255,7 +255,11 @@ public class PVPGame : NetworkBehaviour
     }
     public void DisplayGameOverText(string message)
     {
-        if (gameOverText) gameOverText.gameObject.SetActive(true);
+        if (gameOverText) 
+        {
+            gameOverText.text = message;
+            gameOverText.gameObject.SetActive(true); 
+        }
     }
     public void ExitGame()
     {

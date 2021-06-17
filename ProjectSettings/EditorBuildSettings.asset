@@ -17,7 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PVPGame.unity
     guid: 1f2c9ed6044e96e4f988b21b66514e07
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SoloHordeGame.unity
     guid: ca29c03e4dd3a584a89fdaa1fe2db527
+  - enabled: 1
+    path: Assets/SinglePlayerMode/Scenes/Hordes.unity
+    guid: ae9c9691299e2ca4cb4d478510ee1e6f
   m_configObjects: {}

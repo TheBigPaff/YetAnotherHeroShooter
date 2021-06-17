@@ -27,7 +27,12 @@ public class ForgotPassword : MonoBehaviour
         UnityWebRequest www = UnityWebRequest.Post("http://localhost/YetAnotherMobileShooter/forgot_password.php", form);
         yield return www.SendWebRequest();
 
-        if (www.downloadHandler.text[0] == '0')
+        if(www.result == UnityWebRequest.Result.ConnectionError)
+        {
+            feedbackMessageGO.SetActive(true);
+            feedbackMessageGO.GetComponentInChildren<TMP_Text>().text = "The server is not reachable";
+        }
+        else if (www.downloadHandler.text[0] == '0')
         {
             feedbackMessageGO.SetActive(true);
             feedbackMessageGO.GetComponentInChildren<TMP_Text>().text = "An email was sent to your inbox with instructions for changing your password";
@@ -43,7 +48,7 @@ public class ForgotPassword : MonoBehaviour
 
     public void VerifyInputs()
     {
-        submitButton.interactable = (emailField.text.Length >= 6);
+        submitButton.interactable = emailField.text.Length > 6 && emailField.text.Contains("@") && emailField.text.Contains(".");
     }
 
     public void ResetErrorMessage()

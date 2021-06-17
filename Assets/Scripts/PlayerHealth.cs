@@ -22,7 +22,7 @@ public class PlayerHealth : NetworkBehaviour
         if (health.Value <= 0 & IsLocalPlayer && gameObject.GetComponent<PlayerScript>().IsAlive)
         {
             // despawn
-            gameObject.GetComponent<PlayerScript>().IsAlive = false;
+            gameObject.GetComponent<PlayerScript>().Die();
         }
     }
 

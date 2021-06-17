@@ -40,7 +40,12 @@ public class Registration : MonoBehaviour
 
         yield return www.SendWebRequest();
 
-        if(www.downloadHandler.text == "0")
+        if (www.result == UnityWebRequest.Result.ConnectionError)
+        {
+            feedbackMessageGO.SetActive(true);
+            feedbackMessageGO.GetComponentInChildren<TMP_Text>().text = "The server is not reachable";
+        }
+        else if (www.downloadHandler.text == "0")
         {
             Debug.Log("User created successfully.");
 
@@ -66,7 +71,7 @@ public class Registration : MonoBehaviour
 
     public void VerifyInputs()
     {
-        submitButton.interactable = (nameField.text.Length >= 1 && passwordField.text.Length >= 1 && emailField.text.Length > 6);
+        submitButton.interactable = (nameField.text.Length >= 1 && passwordField.text.Length >= 1 && emailField.text.Length > 6 && emailField.text.Contains("@") && emailField.text.Contains("."));
     }
     public void ResetErrorMessage()
     {

@@ -56,7 +56,6 @@ MonoBehaviour:
     - StartMenu
     - Lobby
     - PVPGame
-    - SoloHordeGame
     AllowRuntimeSceneChanges: 0
     NetworkPrefabs:
     - Prefab: {fileID: 4812042741799327092, guid: beb9e839b531a744c877a785deeaa302, type: 3}

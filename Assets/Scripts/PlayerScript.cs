@@ -29,6 +29,8 @@ public class PlayerScript : NetworkBehaviour
     [Header("Settings")]
     [SerializeField] private float movementSpeed = 5f;
     [SerializeField] private float msBetweenShots = 350f;
+    [SerializeField] AudioClip shootAudio;
+    [SerializeField] AudioClip deathAudio;
 
     private float timeForNextShot = 0f;
     private SceneTransitionHandler.SceneStates m_CurrentSceneState;
@@ -241,7 +243,48 @@ public class PlayerScript : NetworkBehaviour
         }
     }
 
-   
+    [ServerRpc]
+    void DestroyPlayerServerRpc(ulong clientId)
+    {
+        NetworkObject client = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
+        PlayerScript clientPlayer = client.gameObject.GetComponent<PlayerScript>();
+        clientPlayer.IsAlive = false;
+
+        if(NetworkManager.Singleton.LocalClientId == clientId)
+        {
+            PVPGame gameManager = GameObject.Find("GameManager").GetComponent<PVPGame>();
+            gameManager.DisplayGameOverText("You're dead!");
+            SinglePlayerMode.AudioManager.instance.PlaySound(deathAudio, transform.position);
+        }
+
+        DestroyPlayerClientRpc(clientId);
+        client.gameObject.SetActive(false);
+    }
+
+    [ClientRpc]
+    void DestroyPlayerClientRpc(ulong clientId)
+    {
+        NetworkObject client = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
+        PlayerScript clientPlayer = client.gameObject.GetComponent<PlayerScript>();
+        clientPlayer.IsAlive = false;
+
+        if (NetworkManager.Singleton.LocalClientId == clientId)
+        {
+            PVPGame gameManager = GameObject.Find("GameManager").GetComponent<PVPGame>();
+            gameManager.DisplayGameOverText("You're dead!");
+            SinglePlayerMode.AudioManager.instance.PlaySound(deathAudio, transform.position);
+            aimJoystick.gameObject.SetActive(false);
+            movementJoystick.gameObject.SetActive(false);
+        }
+
+        client.gameObject.SetActive(false);
+    }
+
+   public void Die()
+    {
+        DestroyPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
+    }
+
     void Shoot()
     {
         if (!IsAlive) return;
@@ -278,7 +321,7 @@ public class PlayerScript : NetworkBehaviour
     {
         var bullet = Instantiate(bulletTrail, muzzlePosition, Quaternion.identity);
         bullet.AddPosition(muzzlePosition);
-
+        SinglePlayerMode.AudioManager.instance.PlaySound(shootAudio, transform.position);
         if (Physics.Raycast(muzzlePosition, muzzleForward, out RaycastHit hit, shootingDistance))
         {
             bullet.transform.position = hit.point;

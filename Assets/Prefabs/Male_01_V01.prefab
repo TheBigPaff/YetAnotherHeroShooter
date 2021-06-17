@@ -2175,12 +2175,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 132638ff98937cd46ac4ba4a1a190688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  username:
+    m_InternalValue: 
   controller: {fileID: 4943776898525083952}
   rightGunBone: {fileID: 390749028035495630}
   leftGunBone: {fileID: 7494175395523179841}
   healthBar: {fileID: 0}
   movementSpeed: 5.662317
   msBetweenShots: 350
+  shootAudio: {fileID: 8300000, guid: 0f8c4c71d64747940bbfbaa363e77f85, type: 3}
+  deathAudio: {fileID: 8300000, guid: d348928dd07ec0348b53a86d94ee8090, type: 3}
   IsAlive: 1
   bulletTrail: {fileID: 2580395273449327411, guid: a5927f4233be5e249bbd9cfc7341ac8b, type: 3}
   shootingDistance: 200

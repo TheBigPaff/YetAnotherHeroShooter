@@ -984,7 +984,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loginMenu: {fileID: 40862076}
   mainMenu: {fileID: 14804298}
-  errorMessageGameObject: {fileID: 949438546}
+  feedbackMessageGO: {fileID: 949438546}
   nameField: {fileID: 1195799676}
   passwordField: {fileID: 100936646}
   submitButton: {fileID: 871406503}
