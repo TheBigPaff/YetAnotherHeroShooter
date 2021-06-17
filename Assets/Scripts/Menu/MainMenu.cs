@@ -73,7 +73,7 @@ public class MainMenu : MonoBehaviour
     public void JoinSoloGame()
     {
         // dont bother with scene transition handler because it's all client-sided, no need to sync I guess
-        SceneManager.LoadScene("SoloHordeGame");
+        SceneManager.LoadScene("Hordes");
     }
 
     public void QuitGame()
