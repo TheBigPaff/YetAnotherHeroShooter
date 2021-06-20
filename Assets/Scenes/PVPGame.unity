@@ -41777,7 +41777,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1619535146694649772, guid: f777aaf13481109498c6a031a26d09ed, type: 3}
       propertyPath: m_DelayedStartTime
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1619535146694649772, guid: f777aaf13481109498c6a031a26d09ed, type: 3}
       propertyPath: arsenal.Array.data[0].name
